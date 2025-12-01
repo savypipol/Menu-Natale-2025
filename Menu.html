@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ristorante "Nonna Lena" Menu Natale</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET E BASI --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ANIMAZIONE SCORRIMENTO PAGINA */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #fcfbf7; /* Crema chiaro */
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        /* Contenitore per simulare larghezza mobile anche su desktop */
+        .mobile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: #8a1c1c; /* Rosso Natale */
+            color: #d4af37; /* Oro */
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            background-image: radial-gradient(#9e2424 15%, transparent 16%), radial-gradient(#9e2424 15%, transparent 16%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        /* --- NAVIGAZIONE STICKY (Barra menu) --- */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: #fff; /* Sfondo bianco per la barra */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Ombra per staccarla dal resto */
+            z-index: 1000; /* Assicura che stia sopra a tutto */
+            overflow-x: auto; /* Permette di scorrere orizzontalmente se i pulsanti sono tanti */
+            white-space: nowrap;
+            padding: 10px 0;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        /* Nasconde la scrollbar estetica della nav */
+        nav::-webkit-scrollbar { display: none; }
+        nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        nav li {
+            margin: 0 5px;
+        }
+
+        nav a {
+            display: block;
+            padding: 8px 18px;
+            text-decoration: none;
+            color: #8a1c1c;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        /* Effetto quando tocchi il menu */
+        nav a:hover, nav a:active {
+            background-color: #8a1c1c;
+            color: #fff;
+            transform: scale(1.05); /* Leggero ingrandimento */
+        }
+
+        /* --- SEZIONI MENU --- */
+        section {
+            padding: 30px 20px;
+            border-bottom: 1px solid #eee;
+            /* Questo serve per l'animazione: fa in modo che il titolo non finisca sotto la barra */
+            scroll-margin-top: 140px; 
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        .category-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #8a1c1c;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* Decorazione titolo */
+        .category-title::after {
+            content: "♦";
+            display: block;
+            font-size: 1rem;
+            color: #d4af37;
+            margin-top: 5px;
+        }
+
+        /* --- ELEMENTI DEL MENU --- */
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 15px;
+        }
+
+        .item-details {
+            flex: 1;
+            padding-right: 15px;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #222;
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #2c2c2c;
+            color: #d4af37;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- DECORAZIONE --- */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d4af37, transparent);
+            margin: 20px 0;
+            opacity: 0.5;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+    
+    <header>
+        <h1>Ristorante "Nonna Lena"</h1>
+        <p class="subtitle">Menu Natale 2025</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#antipasti">Antipasti</a></li>
+            <li><a href="#primi">Primi</a></li>
+            <li><a href="#secondi">Secondi</a></li>
+            <li><a href="#contorni">Contorni</a></li>
+            <li><a href="#dolci">Dolci</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="antipasti">
+            <h2 class="category-title">🎄 Antipasti 🎅</h2>
+            
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Gran Tagliere Natalizio</div>
+                    <div class="item-desc">Selezione di salumi nostrani, formaggi stagionati, miele tartufato e noci</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Tartare di Fassona</div>
+                    <div class="item-desc">Con tuorlo d'uovo marinato, capperi di Pantelleria e senape antica</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Insalata di Mare Calda</div>
+                    <div class="item-desc">Polpo, calamari, gamberi rossi su vellutata di ceci</div>
+                </div>
+            </div>
+        </section>
+
+      <br>
+
+        <section id="primi">
+            <h2 class="category-title">🎄 Primi 🎅</h2>
+            
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Tortellini in Brodo</div>
+                    <div class="item-desc">Tortellini fatti a mano in brodo di cappone tradizionale</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Lasagna alla Bolognese</div>
+                    <div class="item-desc">Sfoglia verde, ragù lento cottura, besciamella noce moscata</div>
+                </div>
+            </div>
+             <div class="divider"></div>
+
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Risotto allo Champagne</div>
+                    <div class="item-desc">Mantecato con scampi e polvere di melograno</div>
+                </div>
+            </div>
+        </section>
+
+        <br>
+
+        <section id="secondi">
+            <h2 class="category-title">🎄 Secondi 🎅</h2>
+            
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Cappone Ripieno</div>
+                    <div class="item-desc">Farcia di castagne e prugne, servito con il suo fondo</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Filetto in Crosta</div>
+                    <div class="item-desc">Filetto di manzo avvolto in pasta sfoglia e funghi porcini</div>
+                </div>
+            </div>
+        </section>
+
+        <br>
+
+        <section id="contorni">
+            <h2 class="category-title">🎄 Contorni 🎅</h2>
+            
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Patate al Forno</div>
+                    <div class="item-desc">Al rosmarino e sale grosso</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Lenticchie della Fortuna</div>
+                    <div class="item-desc">Stufate con pomodoro e alloro</div>
+                </div>
+            </div>
+        </section>
+
+        <br>
+
+        <section id="dolci">
+            <h2 class="category-title">🎄 Dolci 🎅</h2>
+            
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Panettone Artigianale</div>
+                    <div class="item-desc">Servito con crema calda al mascarpone</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Tronchetto di Natale</div>
+                    <div class="item-desc">Cioccolato fondente e cuore di lamponi</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Ristorante "Nonna Lena"</p>
+        <p style="font-size: 0.8rem; margin-top: 10px;">Via Lecce 17, Pomigliano D'arco(NA)<br>Tel: 081-8844072</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
