@@ -44,7 +44,7 @@
             background-color: #8a1c1c; /* Rosso Natale */
             color: #d4af37; /* Oro */
             text-align: center;
-            padding: 30px 20px;
+            padding: 30px 10px; /* Ridotto padding laterale */
             position: relative;
             background-image: radial-gradient(#9e2424 15%, transparent 16%), radial-gradient(#9e2424 15%, transparent 16%);
             background-size: 20px 20px;
@@ -53,14 +53,17 @@
 
         h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
+            /* MODIFICATO: Ridotto font size per evitare problemi su schermi piccoli */
+            font-size: 2.8rem; 
+            line-height: 1.2;
             margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            word-wrap: break-word; /* Evita che il testo esca fuori */
         }
 
         .subtitle {
             font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #fff;
@@ -70,39 +73,39 @@
         nav {
             position: sticky;
             top: 0;
-            background-color: #fff; /* Sfondo bianco per la barra */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Ombra per staccarla dal resto */
-            z-index: 1000; /* Assicura che stia sopra a tutto */
-            overflow-x: auto; /* Permette di scorrere orizzontalmente se i pulsanti sono tanti */
-            white-space: nowrap;
+            background-color: #fff; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            z-index: 1000; 
             padding: 10px 0;
             border-bottom: 2px solid #d4af37;
+            /* MODIFICATO: Tolto overflow per evitare scroll, ora si adatta */
+            width: 100%;
         }
-
-        /* Nasconde la scrollbar estetica della nav */
-        nav::-webkit-scrollbar { display: none; }
-        nav { -ms-overflow-style: none; scrollbar-width: none; }
 
         nav ul {
             display: flex;
             list-style: none;
-            padding: 0 10px;
+            padding: 0 5px;
             margin: 0;
+            /* MODIFICATO: Permette di andare a capo se non c'è spazio, ma centra tutto */
+            justify-content: center;
+            flex-wrap: wrap; 
         }
 
         nav li {
-            margin: 0 5px;
+            margin: 2px; /* Ridotto margine */
         }
 
         nav a {
             display: block;
-            padding: 8px 18px;
+            /* MODIFICATO: Padding e font ridotti per far entrare tutto */
+            padding: 6px 10px; 
             text-decoration: none;
             color: #8a1c1c;
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 1rem;
-            border-radius: 20px;
+            font-size: 0.85rem; /* Font leggermente più piccolo */
+            border-radius: 15px;
             border: 1px solid transparent;
             transition: all 0.3s ease;
         }
@@ -111,7 +114,6 @@
         nav a:hover, nav a:active {
             background-color: #8a1c1c;
             color: #fff;
-            transform: scale(1.05); /* Leggero ingrandimento */
         }
 
         /* --- SEZIONI MENU --- */
@@ -119,7 +121,7 @@
             padding: 30px 20px;
             border-bottom: 1px solid #eee;
             /* Questo serve per l'animazione: fa in modo che il titolo non finisca sotto la barra */
-            scroll-margin-top: 140px; 
+            scroll-margin-top: 100px; 
         }
 
         section:last-child {
@@ -129,12 +131,13 @@
         .category-title {
             text-align: center;
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 1.8rem; /* Leggermente ridotto per mobile */
             color: #8a1c1c;
             margin-bottom: 25px;
             position: relative;
             display: inline-block;
             width: 100%;
+            line-height: 1.3;
         }
 
         /* Decorazione titolo */
@@ -238,8 +241,6 @@
             </div>
         </section>
 
-      <br>
-
         <section id="primi">
             <h2 class="category-title">🎄 Primi 🎅</h2>
             
@@ -267,8 +268,6 @@
             </div>
         </section>
 
-        <br>
-
         <section id="secondi">
             <h2 class="category-title">🎄 Secondi 🎅</h2>
             
@@ -288,8 +287,6 @@
             </div>
         </section>
 
-        <br>
-
         <section id="contorni">
             <h2 class="category-title">🎄 Contorni 🎅</h2>
             
@@ -308,8 +305,6 @@
                 </div>
             </div>
         </section>
-
-        <br>
 
         <section id="dolci">
             <h2 class="category-title">🎄 Dolci 🎅</h2>
@@ -341,3 +336,4 @@
 
 </body>
 </html>
+            
