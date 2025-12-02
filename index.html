@@ -17,7 +17,6 @@
             padding: 0;
         }
 
-        /* ANIMAZIONE SCORRIMENTO PAGINA */
         html {
             scroll-behavior: smooth;
         }
@@ -27,22 +26,24 @@
             background-color: #fcfbf7; /* Crema chiaro */
             color: #333;
             line-height: 1.6;
-            padding-bottom: 0;
+            overflow-x: hidden;
         }
 
-        /* Contenitore per simulare larghezza mobile anche su desktop */
+        /* Contenitore */
         .mobile-container {
             max-width: 600px;
             margin: 0 auto;
             background-color: #fff;
             min-height: 100vh;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            padding-bottom: 0;
         }
 
         /* --- HEADER --- */
         header {
-            background-color: #8a1c1c; /* Rosso Natale */
-            color: #d4af37; /* Oro */
+            background-color: #8a1c1c;
+            color: #d4af37;
             text-align: center;
             padding: 30px 10px;
             position: relative;
@@ -62,13 +63,15 @@
 
         .subtitle {
             font-family: 'Playfair Display', serif;
-            font-size: 1rem;
+            font-size: 1.4rem; /* Scritta ingrandita */
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #fff;
+            margin-top: 5px;
         }
 
-        /* --- NAVIGAZIONE STICKY (Barra menu) --- */
+        /* --- NAVIGAZIONE STICKY --- */
         nav {
             position: sticky;
             top: 0;
@@ -106,8 +109,8 @@
             transition: all 0.3s ease;
         }
 
-        /* Effetto Hover e STATO ATTIVO */
-        nav a:hover, nav a:active, nav a.active {
+        /* Classe active gestita da JS */
+        nav a.active {
             background-color: #8a1c1c;
             color: #fff;
             transform: scale(1.05);
@@ -116,20 +119,22 @@
 
         /* --- SEZIONI MENU --- */
         section {
-            /* Spazio abbondante tra le sezioni */
-            padding: 80px 20px; 
+            padding: 60px 20px; 
             border-bottom: 1px solid #eee;
-            /* Scroll margin per l'ancoraggio corretto */
             scroll-margin-top: 150px; 
+            
+            /* --- QUESTA È LA SOLUZIONE MAGICA --- */
+            /* Ogni sezione deve occupare almeno il 60% dello schermo */
+            /* Questo obbliga a scorrere e permette alla navbar di capire dove sei */
+            min-height: 60vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Contenuto in alto */
         }
 
-        /* --- IL TRUCCO PER MOBILE È QUI SOTTO --- */
         section:last-of-type {
             border-bottom: none;
-            /* Forziamo l'ultima sezione (Dolci) ad essere alta l'80% dello schermo.
-               In questo modo si può scorrere fino a farla arrivare in cima. */
-            min-height: 80vh; 
-            padding-bottom: 50px;
+            padding-bottom: 20px; 
         }
 
         .category-title {
@@ -152,7 +157,6 @@
             margin-top: 5px;
         }
 
-        /* --- ELEMENTI DEL MENU --- */
         .menu-item {
             display: flex;
             justify-content: space-between;
@@ -178,16 +182,37 @@
             margin-top: 4px;
         }
 
+        /* --- ANIMAZIONE BABBO NATALE --- */
+        .santa-container {
+            width: 100%;
+            overflow: hidden;
+            background-color: #fff;
+            padding: 10px 0;
+            position: relative;
+            margin-bottom: -10px;
+            margin-top: -20px;
+        }
+
+        .santa-img {
+            width: 120px;
+            opacity: 0.8;
+            animation: santaFly 12s linear infinite;
+        }
+
+        @keyframes santaFly {
+            0% { transform: translateX(600px); }
+            100% { transform: translateX(-200px); }
+        }
+
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
             background-color: #2c2c2c;
             color: #d4af37;
             font-family: 'Playfair Display', serif;
         }
 
-        /* --- DECORAZIONE --- */
         .divider {
             height: 1px;
             background: linear-gradient(to right, transparent, #d4af37, transparent);
@@ -330,6 +355,11 @@
 
     </main>
 
+    <div class="santa-container">
+        
+        <img src="https://media.tenor.com/On7jF8cZGOcAAAAi/santa-claus-reindeer.gif" alt="Babbo Natale" class="santa-img" style="filter: brightness(0);">
+    </div>
+
     <footer>
         <p>Ristorante "Nonna Lena"</p>
         <p style="font-size: 0.8rem; margin-top: 10px;">Via Lecce 17, Pomigliano D'arco(NA)<br>Tel: 081-8844072<br><br>Savypipol S.R.L</p>
@@ -338,40 +368,44 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const sections = document.querySelectorAll("section");
-        const navLinks = document.querySelectorAll(".nav-link");
+    // Selezioniamo tutti gli elementi necessari
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section');
 
-        // Opzioni per l'osservatore
-        const observerOptions = {
-            root: null,
-            // "rootMargin" definisce l'area attiva. 
-            // -40% in alto e -40% in basso significa che consideriamo attiva 
-            // la sezione che si trova nella striscia centrale dello schermo.
-            rootMargin: "-40% 0px -40% 0px", 
-            threshold: 0
-        };
+    function onScroll() {
+        let currentSectionId = "";
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    // Rimuovi active da tutti
-                    navLinks.forEach((link) => link.classList.remove("active"));
-                    
-                    // Aggiungi active a quello corrente
-                    const id = entry.target.getAttribute("id");
-                    const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
-                    if (activeLink) {
-                        activeLink.classList.add("active");
-                    }
+        // Logica per rilevare se siamo in fondo alla pagina (Footer)
+        const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50;
+
+        if (isAtBottom) {
+            currentSectionId = "dolci";
+        } else {
+            // Controlla ogni sezione
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                // Se lo scroll (aggiustato di 200px per la barra) è dentro la sezione
+                if (window.scrollY >= (sectionTop - 200)) {
+                    currentSectionId = section.getAttribute("id");
                 }
             });
-        }, observerOptions);
+        }
 
-        sections.forEach((section) => {
-            observer.observe(section);
+        // Aggiorna la classe active
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (currentSectionId && link.getAttribute('href') === '#' + currentSectionId) {
+                link.classList.add('active');
+            }
         });
-    });
+    }
+
+    // Ascolta lo scroll e lancia la funzione
+    window.addEventListener('scroll', onScroll);
+    // Lancia subito la funzione per impostare lo stato iniziale
+    onScroll();
 </script>
 
 </body>
