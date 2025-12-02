@@ -28,21 +28,23 @@
             color: #333;
             line-height: 1.6;
             padding-bottom: 0;
+            overflow-x: hidden; /* Evita scroll orizzontale per l'animazione */
         }
 
-        /* Contenitore per simulare larghezza mobile anche su desktop */
+        /* Contenitore */
         .mobile-container {
             max-width: 600px;
             margin: 0 auto;
             background-color: #fff;
             min-height: 100vh;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         /* --- HEADER --- */
         header {
-            background-color: #8a1c1c; /* Rosso Natale */
-            color: #d4af37; /* Oro */
+            background-color: #8a1c1c;
+            color: #d4af37;
             text-align: center;
             padding: 30px 10px;
             position: relative;
@@ -68,7 +70,7 @@
             color: #fff;
         }
 
-        /* --- NAVIGAZIONE STICKY (Barra menu) --- */
+        /* --- NAVIGAZIONE STICKY --- */
         nav {
             position: sticky;
             top: 0;
@@ -106,7 +108,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Effetto Hover e STATO ATTIVO */
         nav a:hover, nav a:active, nav a.active {
             background-color: #8a1c1c;
             color: #fff;
@@ -116,18 +117,14 @@
 
         /* --- SEZIONI MENU --- */
         section {
-            /* Spazio abbondante tra le sezioni */
             padding: 80px 20px; 
             border-bottom: 1px solid #eee;
-            /* Scroll margin per l'ancoraggio corretto */
             scroll-margin-top: 150px; 
         }
 
-        /* --- IL TRUCCO PER MOBILE È QUI SOTTO --- */
+        /* TRUCCO PER MOBILE: L'ultima sezione è altissima */
         section:last-of-type {
             border-bottom: none;
-            /* Forziamo l'ultima sezione (Dolci) ad essere alta l'80% dello schermo.
-               In questo modo si può scorrere fino a farla arrivare in cima. */
             min-height: 80vh; 
             padding-bottom: 50px;
         }
@@ -152,7 +149,6 @@
             margin-top: 5px;
         }
 
-        /* --- ELEMENTI DEL MENU --- */
         .menu-item {
             display: flex;
             justify-content: space-between;
@@ -178,6 +174,28 @@
             margin-top: 4px;
         }
 
+        /* --- ANIMAZIONE BABBO NATALE --- */
+        .santa-container {
+            width: 100%;
+            background-color: #fff; /* Sfondo bianco come richiesto */
+            overflow: hidden;
+            padding: 20px 0;
+            border-top: 2px solid #d4af37;
+            position: relative;
+        }
+
+        .santa-sleigh {
+            width: 150px; /* Grandezza Babbo Natale */
+            display: block;
+            /* Animazione che lo fa muovere */
+            animation: flySanta 10s linear infinite;
+        }
+
+        @keyframes flySanta {
+            0% { transform: translateX(400px); } /* Parte da destra fuori schermo */
+            100% { transform: translateX(-400px); } /* Finisce a sinistra fuori schermo */
+        }
+
         /* --- FOOTER --- */
         footer {
             text-align: center;
@@ -187,7 +205,6 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* --- DECORAZIONE --- */
         .divider {
             height: 1px;
             background: linear-gradient(to right, transparent, #d4af37, transparent);
@@ -314,21 +331,25 @@
             
             <div class="menu-item">
                 <div class="item-details">
-                  <div class="item-name">Panettone Artigianale</div>
-                    <div class="item-desc">Servito con crema calda al mascarpone</div>
+                    <div class="item-name">Forza Napoli</div>
+                    <div class="item-desc">Napoletani</div>
                 </div>
             </div>
             <div class="divider"></div>
 
             <div class="menu-item">
                 <div class="item-details">
-                  <div class="item-name">Tronchetto di Natale</div>
-                    <div class="item-desc">Cioccolato fondente e cuore di lamponi</div>
+                  <div class="item-name">Forza Napoli</div>
+                    <div class="item-desc">Napoletani</div>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <div class="santa-container">
+        <img src="https://i.gifer.com/origin/3f/3fcf565ccc553afcfd89858c97304705_w200.gif" alt="Babbo Natale" class="santa-sleigh">
+    </div>
 
     <footer>
         <p>Ristorante "Nonna Lena"</p>
@@ -338,40 +359,40 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const sections = document.querySelectorAll("section");
-        const navLinks = document.querySelectorAll(".nav-link");
+    // Seleziona tutti i link e le sezioni
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section');
 
-        // Opzioni per l'osservatore
-        const observerOptions = {
-            root: null,
-            // "rootMargin" definisce l'area attiva. 
-            // -40% in alto e -40% in basso significa che consideriamo attiva 
-            // la sezione che si trova nella striscia centrale dello schermo.
-            rootMargin: "-40% 0px -40% 0px", 
-            threshold: 0
-        };
+    function onScroll() {
+        let currentSectionId = "";
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    // Rimuovi active da tutti
-                    navLinks.forEach((link) => link.classList.remove("active"));
-                    
-                    // Aggiungi active a quello corrente
-                    const id = entry.target.getAttribute("id");
-                    const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
-                    if (activeLink) {
-                        activeLink.classList.add("active");
-                    }
+        // 1. CONTROLLO PRIORITARIO: Fondo Pagina
+        // Se siamo arrivati in fondo (o quasi), accendi "Dolci" e spegni tutto il resto.
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+            currentSectionId = "dolci";
+        } else {
+            // 2. CONTROLLO NORMALE
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Se lo scroll è dentro questa sezione (con un margine di 180px per la barra)
+                if (window.scrollY >= (sectionTop - 180)) {
+                    currentSectionId = section.getAttribute("id");
                 }
             });
-        }, observerOptions);
+        }
 
-        sections.forEach((section) => {
-            observer.observe(section);
+        // Applica la classe active
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (currentSectionId && link.getAttribute('href') === '#' + currentSectionId) {
+                link.classList.add('active');
+            }
         });
-    });
+    }
+
+    // Ascolta lo scroll
+    window.addEventListener('scroll', onScroll);
 </script>
 
 </body>
