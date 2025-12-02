@@ -337,29 +337,31 @@
 </div>
 
 <script>
-    // Seleziona tutte le sezioni e tutti i link della navbar
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // Funzione che controlla lo scroll
     window.addEventListener('scroll', () => {
         let current = '';
-        
+
         sections.forEach(section => {
-            // Calcola la posizione della sezione rispetto alla finestra
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            // 200px è un offset per far scattare l'attivo un po' prima che la sezione arrivi in cima
-            if (pageYOffset >= (sectionTop - 200)) {
+            // 150 è lo spazio per compensare l'altezza della navbar
+            if (window.scrollY >= (sectionTop - 150)) {
                 current = section.getAttribute('id');
             }
         });
 
-        // Applica la classe 'active' al link corrispondente
+        // --- CORREZIONE DELL'ERRORE ---
+        // Se l'utente è arrivato proprio alla fine della pagina, forza l'attivazione dell'ultima sezione (Dolci)
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
+            current = 'dolci';
+        }
+        // ------------------------------
+
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href').includes(current)) {
+            // Controllo più robusto per assegnare la classe
+            if (current && link.getAttribute('href') === '#' + current) {
                 link.classList.add('active');
             }
         });
