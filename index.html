@@ -44,7 +44,7 @@
             background-color: #8a1c1c; /* Rosso Natale */
             color: #d4af37; /* Oro */
             text-align: center;
-            padding: 30px 10px; /* Ridotto padding laterale */
+            padding: 30px 10px;
             position: relative;
             background-image: radial-gradient(#9e2424 15%, transparent 16%), radial-gradient(#9e2424 15%, transparent 16%);
             background-size: 20px 20px;
@@ -53,12 +53,11 @@
 
         h1 {
             font-family: 'Great Vibes', cursive;
-            /* MODIFICATO: Ridotto font size per evitare problemi su schermi piccoli */
             font-size: 2.8rem; 
             line-height: 1.2;
             margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            word-wrap: break-word; /* Evita che il testo esca fuori */
+            word-wrap: break-word;
         }
 
         .subtitle {
@@ -78,7 +77,6 @@
             z-index: 1000; 
             padding: 10px 0;
             border-bottom: 2px solid #d4af37;
-            /* MODIFICATO: Tolto overflow per evitare scroll, ora si adatta */
             width: 100%;
         }
 
@@ -87,53 +85,56 @@
             list-style: none;
             padding: 0 5px;
             margin: 0;
-            /* MODIFICATO: Permette di andare a capo se non c'è spazio, ma centra tutto */
             justify-content: center;
             flex-wrap: wrap; 
         }
 
         nav li {
-            margin: 2px; /* Ridotto margine */
+            margin: 2px;
         }
 
         nav a {
             display: block;
-            /* MODIFICATO: Padding e font ridotti per far entrare tutto */
             padding: 6px 10px; 
             text-decoration: none;
             color: #8a1c1c;
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 0.85rem; /* Font leggermente più piccolo */
+            font-size: 0.85rem;
             border-radius: 15px;
             border: 1px solid transparent;
             transition: all 0.3s ease;
         }
 
-        /* Effetto quando tocchi il menu */
-        nav a:hover, nav a:active {
+        /* Effetto Hover e STATO ATTIVO (Quando ci sei sopra) */
+        nav a:hover, nav a:active, nav a.active {
             background-color: #8a1c1c;
             color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         /* --- SEZIONI MENU --- */
         section {
-            padding: 30px 20px;
+            /* MODIFICATO: Aumentato padding verticale per più spazio tra le categorie */
+            padding: 60px 20px; 
             border-bottom: 1px solid #eee;
-            /* Questo serve per l'animazione: fa in modo che il titolo non finisca sotto la barra */
-            scroll-margin-top: 100px; 
+            /* Scroll margin per l'ancoraggio corretto */
+            scroll-margin-top: 140px; 
         }
 
         section:last-child {
             border-bottom: none;
+            /* Spazio extra in fondo all'ultima sezione per permettere lo scroll */
+            padding-bottom: 100px; 
         }
 
         .category-title {
             text-align: center;
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem; /* Leggermente ridotto per mobile */
+            font-size: 1.8rem;
             color: #8a1c1c;
-            margin-bottom: 25px;
+            margin-bottom: 35px; /* Aumentato leggermente */
             position: relative;
             display: inline-block;
             width: 100%;
@@ -205,11 +206,11 @@
 
     <nav>
         <ul>
-            <li><a href="#antipasti">Antipasti</a></li>
-            <li><a href="#primi">Primi</a></li>
-            <li><a href="#secondi">Secondi</a></li>
-            <li><a href="#contorni">Contorni</a></li>
-            <li><a href="#dolci">Dolci</a></li>
+            <li><a href="#antipasti" class="nav-link">Antipasti</a></li>
+            <li><a href="#primi" class="nav-link">Primi</a></li>
+            <li><a href="#secondi" class="nav-link">Secondi</a></li>
+            <li><a href="#contorni" class="nav-link">Contorni</a></li>
+            <li><a href="#dolci" class="nav-link">Dolci</a></li>
         </ul>
     </nav>
 
@@ -240,10 +241,10 @@
                 </div>
             </div>
         </section>
-        <br>
+
         <section id="primi">
             <h2 class="category-title">🎄 Primi 🎅</h2>
-            <br>
+            
             <div class="menu-item">
                 <div class="item-details">
                     <div class="item-name">Tortellini in Brodo</div>
@@ -267,7 +268,7 @@
                 </div>
             </div>
         </section>
-       <br>
+
         <section id="secondi">
             <h2 class="category-title">🎄 Secondi 🎅</h2>
             
@@ -286,7 +287,7 @@
                 </div>
             </div>
         </section>
-        <br>
+
         <section id="contorni">
             <h2 class="category-title">🎄 Contorni 🎅</h2>
             
@@ -305,7 +306,7 @@
                 </div>
             </div>
         </section>
-        <br>
+
         <section id="dolci">
             <h2 class="category-title">🎄 Dolci 🎅</h2>
             
@@ -334,6 +335,35 @@
 
 </div>
 
+<script>
+    // Seleziona tutte le sezioni e tutti i link della navbar
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Funzione che controlla lo scroll
+    window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+            // Calcola la posizione della sezione rispetto alla finestra
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            // 200px è un offset per far scattare l'attivo un po' prima che la sezione arrivi in cima
+            if (pageYOffset >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        // Applica la classe 'active' al link corrispondente
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
-            
