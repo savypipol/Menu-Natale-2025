@@ -27,7 +27,7 @@
             background-color: #fcfbf7; /* Crema chiaro */
             color: #333;
             line-height: 1.6;
-            padding-bottom: 0; /* Gestito dalle sezioni ora */
+            padding-bottom: 0;
         }
 
         /* Contenitore per simulare larghezza mobile anche su desktop */
@@ -116,18 +116,20 @@
 
         /* --- SEZIONI MENU --- */
         section {
-            /* MODIFICATO: Aumentato a 100px per dare molto più spazio tra le categorie */
-            padding: 100px 20px; 
+            /* Spazio abbondante tra le sezioni */
+            padding: 80px 20px; 
             border-bottom: 1px solid #eee;
-            /* Scroll margin aumentato per compensare la navbar */
-            scroll-margin-top: 160px; 
+            /* Scroll margin per l'ancoraggio corretto */
+            scroll-margin-top: 150px; 
         }
 
-        section:last-child {
+        /* --- IL TRUCCO PER MOBILE È QUI SOTTO --- */
+        section:last-of-type {
             border-bottom: none;
-            /* MODIFICATO: Spazio extra enorme (300px) alla fine. 
-               Questo permette di scorrere fino in fondo così "Dolci" si attiva sicuro */
-            padding-bottom: 300px; 
+            /* Forziamo l'ultima sezione (Dolci) ad essere alta l'80% dello schermo.
+               In questo modo si può scorrere fino a farla arrivare in cima. */
+            min-height: 80vh; 
+            padding-bottom: 50px;
         }
 
         .category-title {
@@ -183,9 +185,6 @@
             background-color: #2c2c2c;
             color: #d4af37;
             font-family: 'Playfair Display', serif;
-            margin-top: -100px; /* Trucco per avvicinarlo visivamente all'ultimo spazio vuoto */
-            position: relative;
-            z-index: 10;
         }
 
         /* --- DECORAZIONE --- */
@@ -339,31 +338,40 @@
 </div>
 
 <script>
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-link');
+    document.addEventListener("DOMContentLoaded", function() {
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".nav-link");
 
-    // Funzione ottimizzata per rilevare la sezione attiva
-    function changeLinkState() {
-        let index = sections.length;
+        // Opzioni per l'osservatore
+        const observerOptions = {
+            root: null,
+            // "rootMargin" definisce l'area attiva. 
+            // -40% in alto e -40% in basso significa che consideriamo attiva 
+            // la sezione che si trova nella striscia centrale dello schermo.
+            rootMargin: "-40% 0px -40% 0px", 
+            threshold: 0
+        };
 
-        // Questo ciclo controlla quale sezione è visibile
-        while(--index && window.scrollY + 200 < sections[index].offsetTop) {}
-        
-        // Controllo speciale per il fondo pagina (Mobile fix)
-        // Se siamo vicini alla fine del documento (footer), attiva l'ultima sezione (Dolci)
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
-            index = sections.length - 1;
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // Rimuovi active da tutti
+                    navLinks.forEach((link) => link.classList.remove("active"));
+                    
+                    // Aggiungi active a quello corrente
+                    const id = entry.target.getAttribute("id");
+                    const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add("active");
+                    }
+                }
+            });
+        }, observerOptions);
 
-        navLinks.forEach((link) => link.classList.remove('active'));
-        // Aggiunge la classe active solo se index è valido
-        if(index >= 0) {
-            navLinks[index].classList.add('active');
-        }
-    }
-
-    changeLinkState();
-    window.addEventListener('scroll', changeLinkState);
+        sections.forEach((section) => {
+            observer.observe(section);
+        });
+    });
 </script>
 
 </body>
