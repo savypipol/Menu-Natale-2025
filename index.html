@@ -118,21 +118,23 @@
         }
 
         /* --- SEZIONI MENU --- */
-       section {
-            padding: 60px 20px; 
+        section {
+            /* MODIFICA: padding-bottom (terzo valore) aumentato a 100px */
+            /* Top: 60px | Right: 20px | Bottom: 100px | Left: 20px */
+            padding: 60px 20px 100px 20px; 
+            
             border-bottom: 1px solid #eee;
             scroll-margin-top: 150px; 
-            
-            /* Lasciamo l'altezza minima per la navbar, MA togliamo il flexbox */
             min-height: 60vh; 
-            display: block; /* Assicura che gli elementi stiano uno sotto l'altro normalmente */
+            display: block; 
         }
+
         /* Modifica specifica per l'ultima sezione (Dolci) */
         section:last-of-type {
             border-bottom: none;
-            /* Rimuoviamo l'altezza forzata per avvicinare la citazione */
             min-height: auto; 
-            padding-bottom: 20px; 
+            /* MODIFICA: Spazio extra grande tra dolci e frase finale */
+            padding-bottom: 150px; 
         }
 
         .category-title {
@@ -183,15 +185,14 @@
         /* --- CITAZIONE FINALE --- */
         .quote-container {
             text-align: center;
-            /* Padding ridotto sopra per avvicinarlo ai dolci */
-            padding: 20px 30px 40px 30px; 
-            
+            padding: 40px 30px; 
+            background-color: #fffcf5; 
             color: #8a1c1c;
             border-top: 1px solid #eee;
         }
 
         .quote-text {
-            font-family: 'Great Vibes', cursive;
+            font-family: 'Great Vibes', cursive; /* Stile firma */
             font-size: 2rem;
             line-height: 1.4;
         }
@@ -199,7 +200,7 @@
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 20px 20px 40px 20px;
+            padding: 30px 20px;
             background-color: #2c2c2c;
             color: #d4af37;
             font-family: 'Playfair Display', serif;
@@ -219,7 +220,7 @@
 <div class="mobile-container">
     
     <header>
-        <h1>Ristorante " Nonna Lena"</h1>
+        <h1>Ristorante "Nonna Lena"</h1>
         <p class="subtitle">Menu Natale 2025</p>
     </header>
 
@@ -367,12 +368,11 @@
     function onScroll() {
         let currentSectionId = "";
 
-        // Rileva se siamo arrivati al footer o alla citazione
-        // (La tolleranza è 150px dal fondo)
+        // Rileva se siamo arrivati al footer (o alla citazione)
+        // Se siamo in fondo, attiva "dolci"
         const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 150;
 
         if (isAtBottom) {
-            // Se siamo in fondo, accendi DOLCI
             currentSectionId = "dolci";
         } else {
             // Controlla ogni sezione
