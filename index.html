@@ -63,7 +63,7 @@
 
         .subtitle {
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem; /* Scritta ingrandita */
+            font-size: 1.4rem; 
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -109,7 +109,7 @@
             transition: all 0.3s ease;
         }
 
-        /* Classe active gestita da JS */
+        /* Classe active */
         nav a.active {
             background-color: #8a1c1c;
             color: #fff;
@@ -123,18 +123,16 @@
             border-bottom: 1px solid #eee;
             scroll-margin-top: 150px; 
             
-            /* --- QUESTA È LA SOLUZIONE MAGICA --- */
-            /* Ogni sezione deve occupare almeno il 60% dello schermo */
-            /* Questo obbliga a scorrere e permette alla navbar di capire dove sei */
+            /* Spaziatura tecnica per far funzionare la navbar */
             min-height: 60vh; 
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Contenuto in alto */
+            justify-content: flex-start; 
         }
 
         section:last-of-type {
             border-bottom: none;
-            padding-bottom: 20px; 
+            padding-bottom: 40px; 
         }
 
         .category-title {
@@ -182,26 +180,19 @@
             margin-top: 4px;
         }
 
-        /* --- ANIMAZIONE BABBO NATALE --- */
-        .santa-container {
-            width: 100%;
-            overflow: hidden;
-            background-color: #fff;
-            padding: 10px 0;
-            position: relative;
-            margin-bottom: -10px;
-            margin-top: -20px;
+        /* --- CITAZIONE FINALE --- */
+        .quote-container {
+            text-align: center;
+            padding: 40px 30px;
+            background-color: #fffcf5; /* Sfondo leggermente diverso */
+            color: #8a1c1c;
+            border-top: 1px solid #eee;
         }
 
-        .santa-img {
-            width: 120px;
-            opacity: 0.8;
-            animation: santaFly 12s linear infinite;
-        }
-
-        @keyframes santaFly {
-            0% { transform: translateX(600px); }
-            100% { transform: translateX(-200px); }
+        .quote-text {
+            font-family: 'Great Vibes', cursive; /* Stile firma */
+            font-size: 2rem;
+            line-height: 1.4;
         }
 
         /* --- FOOTER --- */
@@ -355,9 +346,10 @@
 
     </main>
 
-    <div class="santa-container">
-        
-        <img src="https://media.tenor.com/On7jF8cZGOcAAAAi/santa-claus-reindeer.gif" alt="Babbo Natale" class="santa-img" style="filter: brightness(0);">
+    <div class="quote-container">
+        <p class="quote-text">
+            "Non si può pensare bene, amare bene, dormire bene, se non si ha mangiato bene."
+        </p>
     </div>
 
     <footer>
@@ -368,15 +360,15 @@
 </div>
 
 <script>
-    // Selezioniamo tutti gli elementi necessari
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section');
 
     function onScroll() {
         let currentSectionId = "";
 
-        // Logica per rilevare se siamo in fondo alla pagina (Footer)
-        const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50;
+        // Rileva se siamo arrivati al footer (o alla citazione)
+        // Se siamo in fondo, attiva "dolci"
+        const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 150;
 
         if (isAtBottom) {
             currentSectionId = "dolci";
@@ -384,9 +376,7 @@
             // Controlla ogni sezione
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                // Se lo scroll (aggiustato di 200px per la barra) è dentro la sezione
+                // Se lo scroll è dentro la sezione (con margine per la barra)
                 if (window.scrollY >= (sectionTop - 200)) {
                     currentSectionId = section.getAttribute("id");
                 }
@@ -402,10 +392,8 @@
         });
     }
 
-    // Ascolta lo scroll e lancia la funzione
     window.addEventListener('scroll', onScroll);
-    // Lancia subito la funzione per impostare lo stato iniziale
-    onScroll();
+    onScroll(); // Inizializza
 </script>
 
 </body>
