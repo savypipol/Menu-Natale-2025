@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ristorante "Nonna Lena" Menu Natale</title>
+    <title>Ristorante " Nonna Lena" Menu Natale</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,16 +123,20 @@
             border-bottom: 1px solid #eee;
             scroll-margin-top: 150px; 
             
-            /* Spaziatura tecnica per far funzionare la navbar */
+            /* Questo serve per la navbar: forza ogni sezione ad essere alta 
+               almeno il 60% dello schermo così il telefono sa dove si trova */
             min-height: 60vh; 
             display: flex;
             flex-direction: column;
             justify-content: flex-start; 
         }
 
+        /* Modifica specifica per l'ultima sezione (Dolci) */
         section:last-of-type {
             border-bottom: none;
-            padding-bottom: 40px; 
+            /* Rimuoviamo l'altezza forzata per avvicinare la citazione */
+            min-height: auto; 
+            padding-bottom: 20px; 
         }
 
         .category-title {
@@ -183,14 +187,15 @@
         /* --- CITAZIONE FINALE --- */
         .quote-container {
             text-align: center;
-            padding: 40px 30px;
-            background-color: #fffcf5; /* Sfondo leggermente diverso */
+            /* Padding ridotto sopra per avvicinarlo ai dolci */
+            padding: 20px 30px 40px 30px; 
+            background-color: #fffcf5; 
             color: #8a1c1c;
             border-top: 1px solid #eee;
         }
 
         .quote-text {
-            font-family: 'Great Vibes', cursive; /* Stile firma */
+            font-family: 'Great Vibes', cursive;
             font-size: 2rem;
             line-height: 1.4;
         }
@@ -198,7 +203,7 @@
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px 20px 40px 20px;
             background-color: #2c2c2c;
             color: #d4af37;
             font-family: 'Playfair Display', serif;
@@ -348,7 +353,7 @@
 
     <div class="quote-container">
         <p class="quote-text">
-            "Non si può pensare bene, amare bene, dormire bene, se non si ha mangiato bene."
+            "Non si può pensare bene, amare bene, dormire bene, se non si mangia bene."
         </p>
     </div>
 
@@ -366,11 +371,12 @@
     function onScroll() {
         let currentSectionId = "";
 
-        // Rileva se siamo arrivati al footer (o alla citazione)
-        // Se siamo in fondo, attiva "dolci"
+        // Rileva se siamo arrivati al footer o alla citazione
+        // (La tolleranza è 150px dal fondo)
         const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 150;
 
         if (isAtBottom) {
+            // Se siamo in fondo, accendi DOLCI
             currentSectionId = "dolci";
         } else {
             // Controlla ogni sezione
