@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -119,9 +120,8 @@
 
         /* --- SEZIONI MENU --- */
         section {
-            /* MODIFICA: padding-bottom (terzo valore) aumentato a 100px */
-            /* Top: 60px | Right: 20px | Bottom: 100px | Left: 20px */
-            padding: 60px 20px 100px 20px; 
+            /* MODIFICA 1: Spazio uniforme sotto ogni sezione (70px) */
+            padding: 60px 20px 70px 20px; 
             
             border-bottom: 1px solid #eee;
             scroll-margin-top: 150px; 
@@ -129,12 +129,15 @@
             display: block; 
         }
 
-        /* Modifica specifica per l'ultima sezione (Dolci) */
+        /* Rimuoviamo il bordo dall'ultima sezione ma l'altezza è automatica */
         section:last-of-type {
             border-bottom: none;
             min-height: auto; 
-            /* MODIFICA: Spazio extra grande tra dolci e frase finale */
-            padding-bottom: 150px; 
+        }
+
+        /* MODIFICA 2: Spazio EXTRA specifico per i Dolci */
+        #dolci {
+            padding-bottom: 120px !important; /* Spazio extra per distanziare dalla citazione */
         }
 
         .category-title {
@@ -185,14 +188,16 @@
         /* --- CITAZIONE FINALE --- */
         .quote-container {
             text-align: center;
-            padding: 40px 30px; 
-            background-color: #fffcf5; 
+            /* MODIFICA 3: Meno spazio sopra (10px), spazio giusto sotto (50px) */
+            padding: 10px 30px 50px 30px; 
+            
+            
             color: #8a1c1c;
-            border-top: 1px solid #eee;
+        
         }
 
         .quote-text {
-            font-family: 'Great Vibes', cursive; /* Stile firma */
+            font-family: 'Great Vibes', cursive;
             font-size: 2rem;
             line-height: 1.4;
         }
@@ -200,7 +205,7 @@
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px 20px 40px 20px;
             background-color: #2c2c2c;
             color: #d4af37;
             font-family: 'Playfair Display', serif;
@@ -400,3 +405,5 @@
 
 </body>
 </html>
+
+
