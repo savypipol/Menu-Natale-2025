@@ -118,19 +118,15 @@
         }
 
         /* --- SEZIONI MENU --- */
-        section {
+       section {
             padding: 60px 20px; 
             border-bottom: 1px solid #eee;
             scroll-margin-top: 150px; 
             
-            /* Questo serve per la navbar: forza ogni sezione ad essere alta 
-               almeno il 60% dello schermo così il telefono sa dove si trova */
+            /* Lasciamo l'altezza minima per la navbar, MA togliamo il flexbox */
             min-height: 60vh; 
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start; 
+            display: block; /* Assicura che gli elementi stiano uno sotto l'altro normalmente */
         }
-
         /* Modifica specifica per l'ultima sezione (Dolci) */
         section:last-of-type {
             border-bottom: none;
